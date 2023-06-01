@@ -1,0 +1,42 @@
+---
+- name: Deploy NGINX container using Docker
+<<<<<<< HEAD
+  hosts: localhost
+  become: false
+  
+=======
+  hosts: local
+  become: false
+
+>>>>>>> f4ea33ddd54ffafdb511d0241c10cd113ae62be0
+  tasks:
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+
+    - name: Build NGINX Docker image
+      docker_image:
+        name: my-nginx-image
+        build:
+          path: /home/user/nginxserver/Dockerfile
+          pull: yes
+
+    - name: Run NGINX container
+      docker_container:
+        name: my-nginx-container
+        image: my-nginx-image
+        ports:
+          - "83:83"
+        volumes:
+          - "/home/user/firstcase-2/sampl.html:/usr/share/nginx/html"
+        state: started
+        
+    - name: Add SSH key to authorized_keys
+      authorized_key:
+        user: user
+        key: "{{ lookup('file', '/home/user/.ssh/sshkey.pub') }}"
+
+        
+   
+
